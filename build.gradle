@@ -1,19 +1,43 @@
 plugins {
     id 'java'
+    id 'io.qameta.allure' version '3.0.2'
 }
-
-group = 'org.example'
-version = '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    testImplementation platform('org.junit:junit-bom:5.10.0')
-    testImplementation 'org.junit.jupiter:junit-jupiter'
+    implementation 'com.codeborne:selenide:7.14.0'
+    implementation 'org.junit.jupiter:junit-jupiter:5.10.2'
+
+    testImplementation 'org.assertj:assertj-core:3.27.7'
+    testImplementation 'io.qameta.allure:allure-junit5:2.32.0'
+    testImplementation 'io.qameta.allure:allure-selenide:2.32.0'
+    testImplementation 'org.slf4j:slf4j-simple:2.0.9'
+
+    testImplementation('io.rest-assured:rest-assured:5.5.0') {
+        exclude group: 'org.hamcrest', module: 'hamcrest-core'
+    }
+
+    testImplementation 'org.hamcrest:hamcrest:2.2'
+    testImplementation 'io.rest-assured:json-path:5.5.0'
+    testImplementation 'io.rest-assured:xml-path:5.5.0'
 }
 
 test {
     useJUnitPlatform()
+
+
+    maxParallelForks = 2
+
+    systemProperty 'junit.jupiter.execution.parallel.enabled', 'true'
+    systemProperty 'file.encoding', 'UTF-8'
+    systemProperty 'sun.jnu.encoding', 'UTF-8'
+
+    jvmArgs = [
+            '-Duser.language=ru',
+            '-Duser.country=RU',
+            '-Xmx1024m'
+    ]
 }
